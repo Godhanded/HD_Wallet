@@ -6,6 +6,9 @@ let count = false;
 console.log();
 let mnemonic;
 
+const url= "Provider_URL";
+const provider = new ethers.providers.JsonRpcProvider(url);
+
 function generateRandomHDNode() 
 {
     if(!count)
@@ -59,29 +62,33 @@ console.log("polygon: ",deriveWallet(mnemonic,derivationPath.polygon));
 
 console.log();
 
-// async function signTx(wallet, _to, _value)
-// {
-//     let transaction=
-//         {
-//             gasLimit: 25000,
-//             to: _to,
-//             value: ethers.utils.parseEther(_value),
-//             data: "0x",
-//         };
-//     return wallet.signTransaction(transaction);
-// }
+async function signTx(wallet, _to, _value)
+{
+    let transaction=
+        {
+            gasLimit: 25000,
+            to: _to,
+            value: ethers.utils.parseEther(_value),
+            //data: "0x",
+        };
+        console.log(ethers.utils.formatEther(await wallet.getBalance()));
+    return wallet.sendTransaction(transaction);
+}
 
-// let wallets = deriveWallet(mnemonic, derivationPath.polygon);
-// let wallet = wallets[1];
-// console.log()
-// console.log()
-// console.log()
-// let recipient = "0x933b946c4fec43372c5580096408d25b3c7936c5";
-// let value = "1.0";
+let wallets = deriveWallet(mnemonic, derivationPath.polygon);
+let wallet = wallets[1];
+wallet = wallet.connect(provider)
 
-// (async()=>
-// {
-//     let signedTx= await signTx(wallet, recipient, value);
-//     console.log("signed tx: ", signedTx);
-// })();
-// console.log();
+//console.log("bal: ", bal)
+console.log()
+console.log()
+console.log()
+let recipient = "0x933b946c4fec43372c5580096408d25b3c7936c5";
+let value = "1.0";
+
+(async()=>
+{
+    let signedTx= await signTx(wallet, recipient, value);
+    console.log("signed tx: ", signedTx);
+})();
+console.log();
