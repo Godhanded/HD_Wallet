@@ -1,13 +1,15 @@
 const bip39 = require('bip39');
 const ethers = require('ethers');
+require('dotenv').config()
 // const hdkey = require('hdkey');
 // const ethUtil = require('ethereumjs-util');
 let count = false;
 console.log();
 let mnemonic;
 
-const url= "Provider_URL";
+const url= process.env.RPCURL;
 const provider = new ethers.providers.JsonRpcProvider(url);
+
 
 function generateRandomHDNode() 
 {
@@ -66,7 +68,7 @@ async function signTx(wallet, _to, _value)
 {
     let transaction=
         {
-            gasLimit: 25000,
+            //gasLimit: 25000,
             to: _to,
             value: ethers.utils.parseEther(_value),
             //data: "0x",
@@ -75,20 +77,45 @@ async function signTx(wallet, _to, _value)
     return wallet.sendTransaction(transaction);
 }
 
-let wallets = deriveWallet(mnemonic, derivationPath.polygon);
-let wallet = wallets[1];
+let wallets = deriveWallet(mnemonic, derivationPath.ethereum);
+let wallet= wallets[1];
+
 wallet = wallet.connect(provider)
 
-//console.log("bal: ", bal)
 console.log()
 console.log()
 console.log()
-let recipient = "0x933b946c4fec43372c5580096408d25b3c7936c5";
-let value = "1.0";
+let recipient = "0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9";
+let value = "0.0089";
 
-(async()=>
-{
-    let signedTx= await signTx(wallet, recipient, value);
-    console.log("signed tx: ", signedTx);
-})();
+// (async()=>
+// {
+//     let signedTx= await signTx(wallet, recipient, value);
+//     console.log("signed tx: ", signedTx);
+// })();
 console.log();
+console.log();
+
+
+//------------------------------ERC20--------------------------
+
+const USDTaddress='0x058925943B2Ae8e6AeA2796f1F3De4997d125741'
+const abi = require('./ERC20abi.json');
+
+const USDT= new ethers.Contract(USDTaddress,abi,provider);
+let mnemonics2=process.env.SEED;
+let neww= ethers.Wallet.fromMnemonic(mnemonics2, "m/44'/60'/0'/0/0");
+const signer = new ethers.Wallet(neww.privateKey,provider);
+console.log(neww.address);
+ (async()=>
+ {
+    let tx= await USDT.balanceOf(neww.address)
+    let signedTx= await signTx(signer, recipient, value);
+    console.log("signed tx: ", signedTx);
+    console.log();
+    console.log();
+    console.log();
+    let tx2= await USDT.connect(signer).transfer('0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9',ethers.utils.parseUnits('5'));
+    console.log('erc20: ',ethers.utils.formatUnits(tx),tx2);
+ })();
+   
