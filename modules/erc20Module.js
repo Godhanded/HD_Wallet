@@ -5,6 +5,8 @@ const url= process.env.RPCURL;
 const provider = new ethers.providers.JsonRpcProvider(url);
 //------------------------------ERC20--------------------------
 
+//------------------------------ERC20_TEST--------------------------
+
 const USDTaddress='0x058925943B2Ae8e6AeA2796f1F3De4997d125741'
 const abi = require('../ERC20abi.json');
 
@@ -22,6 +24,10 @@ console.log(neww.address);
     let tx2= await USDT.connect(signer).transfer('0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9',ethers.utils.parseUnits('5'));
     console.log('erc20: ',ethers.utils.formatUnits(tx),tx2,tx2.hash);
  })();
+
+//------------------------------END_TEST--------------------------
+
+//------------------------------ERC20--------------------------
 
  async function getBalance(_address)
  {
