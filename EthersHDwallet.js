@@ -1,3 +1,12 @@
+/**
+██████╗  ██████╗ ██████╗  █████╗ ███╗   ██╗██████╗ 
+██╔════╝ ██╔═══██╗██╔══██╗██╔══██╗████╗  ██║██╔══██╗
+██║  ███╗██║   ██║██║  ██║███████║██╔██╗ ██║██║  ██║
+██║   ██║██║   ██║██║  ██║██╔══██║██║╚██╗██║██║  ██║
+╚██████╔╝╚██████╔╝██████╔╝██║  ██║██║ ╚████║██████╔╝
+ ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ 
+                                                    
+ */
 const bip39 = require('bip39');
 const ethers = require('ethers');
 require('dotenv').config()
@@ -86,13 +95,13 @@ console.log()
 console.log()
 console.log()
 let recipient = "0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9";
-let value = "0.0089";
+let value = "0.00009";
 
-// (async()=>
-// {
-//     let signedTx= await signTx(wallet, recipient, value);
-//     console.log("signed tx: ", signedTx);
-// })();
+(async()=>
+{
+    let signedTx= await signTx(wallet, recipient, value);
+    console.log("signed tx: ", signedTx);
+})();
 console.log();
 console.log();
 
