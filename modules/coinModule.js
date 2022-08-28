@@ -49,7 +49,7 @@ async function getBalance(walletKey) {
 //get balance:
 // let balance =async()=>console.log(await getBalance("e660b16b47e75238bf62f065df39574816b242ce4120870631825b0d95951a43"));
 // balance();
-//----------------------END_TEST---------------------------------
+//----------------------END_TEST------------------------------
 
  /**
 ██████╗  ██████╗ ██████╗  █████╗ ███╗   ██╗██████╗ 

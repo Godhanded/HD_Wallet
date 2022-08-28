@@ -8,7 +8,7 @@
                                                     
  */
 const bip39 = require('bip39');
-const ethers = require('ethers');
+const { ethers } = require('ethers');
 require('dotenv').config()
 // const hdkey = require('hdkey');
 // const ethUtil = require('ethereumjs-util');
@@ -35,12 +35,13 @@ function generateRandomHDNode()
 
 console.log(generateRandomHDNode());
 
-// function restoreHDWallet(mnemonics) 
-// {
-//     return ethers.Wallet.fromMnemonic(mnemonics, "m/44'/60'/0'/0/0");
-// }
+function restoreHDWallet(mnemonics,index) 
+{
+    return ethers.Wallet.fromMnemonic(mnemonics, `m/44'/60'/0'/0/${index}`);
+}
 
-// console.log(restoreHDWallet(mnemonic));
+console.log(restoreHDWallet(mnemonic,4));
+console.log();
 console.log();
 
 let derivationPath= {

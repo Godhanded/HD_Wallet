@@ -1,4 +1,4 @@
-const ethers = require('ethers');
+const { ethers } = require('ethers');
 require('dotenv').config()
 
 //chain depends on which rpc url you use
@@ -32,7 +32,7 @@ const provider = new ethers.providers.JsonRpcProvider(url);
  }
 
 
- 
+
  //------------------------------ERC20_TEST--------------------------
 
 // const USDTaddress='0x058925943B2Ae8e6AeA2796f1F3De4997d125741'
