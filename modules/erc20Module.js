@@ -7,6 +7,8 @@ const provider = new ethers.providers.JsonRpcProvider(url);
 
 //------------------------------ERC20--------------------------
 
+ const abi = require('../ERC20abi.json');
+
  async function getBalance(_address)
  {
     let balance= await USDT.balanceOf(_adresss);
