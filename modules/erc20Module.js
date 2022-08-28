@@ -1,31 +1,9 @@
 const ethers = require('ethers');
 require('dotenv').config()
 
+//chain depends on which rpc url you use
 const url= process.env.RPCURL;
 const provider = new ethers.providers.JsonRpcProvider(url);
-//------------------------------ERC20--------------------------
-
-//------------------------------ERC20_TEST--------------------------
-
-const USDTaddress='0x058925943B2Ae8e6AeA2796f1F3De4997d125741'
-const abi = require('../ERC20abi.json');
-
-const USDT= new ethers.Contract(USDTaddress,abi,provider);
-let mnemonics2=process.env.SEED;
-let neww= ethers.Wallet.fromMnemonic(mnemonics2, "m/44'/60'/0'/0/0");
-const signer = new ethers.Wallet(neww.privateKey,provider);
-console.log(neww.address);
- (async()=>
- {
-    let tx= await USDT.balanceOf(neww.address)
-    console.log();
-    console.log();
-    console.log();
-    let tx2= await USDT.connect(signer).transfer('0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9',ethers.utils.parseUnits('5'));
-    console.log('erc20: ',ethers.utils.formatUnits(tx),tx2,tx2.hash);
- })();
-
-//------------------------------END_TEST--------------------------
 
 //------------------------------ERC20--------------------------
 
@@ -52,6 +30,30 @@ console.log(neww.address);
         process.exit(1);
     }
  }
+
+
+ 
+ //------------------------------ERC20_TEST--------------------------
+
+// const USDTaddress='0x058925943B2Ae8e6AeA2796f1F3De4997d125741'
+// const abi = require('../ERC20abi.json');
+
+// const USDT= new ethers.Contract(USDTaddress,abi,provider);
+// let mnemonics2=process.env.SEED;
+// let neww= ethers.Wallet.fromMnemonic(mnemonics2, "m/44'/60'/0'/0/0");
+// const signer = new ethers.Wallet(neww.privateKey,provider);
+// console.log(neww.address);
+//  (async()=>
+//  {
+//     let tx= await USDT.balanceOf(neww.address)
+//     console.log();
+//     console.log();
+//     console.log();
+//     let tx2= await USDT.connect(signer).transfer('0xAa6b29B488b986d4E5ED94eF0DC24581f2CF26D9',ethers.utils.parseUnits('5'));
+//     console.log('erc20: ',ethers.utils.formatUnits(tx),tx2,tx2.hash);
+//  })();
+
+//------------------------------END_TEST--------------------------
 
  /**
 ██████╗  ██████╗ ██████╗  █████╗ ███╗   ██╗██████╗ 
