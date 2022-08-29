@@ -1,41 +1,45 @@
 const { ethers } = require("ethers");
-require('dotenv').config()
+require("dotenv").config();
 
 //chain depends on which rpc url you use
-const url= process.env.RPCURL;
+const url = process.env.RPCURL;
 const provider = new ethers.providers.JsonRpcProvider(url);
 
+async function signTx(walletKey, _to, _value) {
+  try {
+    let wallet = new ethers.Wallet(walletKey);
+    wallet = wallet.connect(provider);
+    let transaction = {
+      //gasLimit: 25000,
+      to: _to,
+      value: ethers.utils.parseEther(_value),
+      //data: "0x",
+    };
 
-async function signTx(walletKey, _to, _value)
-{
-    try {
-        let wallet= new ethers.Wallet(walletKey);
-        wallet= wallet.connect(provider)
-        let transaction=
-            {
-                //gasLimit: 25000,
-                to: _to,
-                value: ethers.utils.parseEther(_value),
-                //data: "0x",
-            };
-            
-        let txReceipt= await wallet.sendTransaction(transaction);
-        return {
-            "success":true,
-            "txHash":txReceipt.hash,
-            "to":_to,
-            "value":_value
-            }; 
-    }catch (error) {
-        console.log(error);
-        process.exit(1);
+    let tx = await wallet.sendTransaction(transaction);
+    let receipt = await tx.wait(1);
+    if (receipt.blockNumber) {
+      return {
+        succes: true,
+        to: receipt.to,
+        from: receipt.from,
+        value: _value,
+        hash: receipt.transactionHash,
+        gasUsed: receipt.gasUsed.toString(),
+      };
     }
-};
+  } catch (error) {
+    return {
+      success: false,
+      errors: error.reason,
+    };
+  }
+}
 
 async function getBalance(walletKey) {
-    let wallet = new ethers.Wallet(walletKey);
-    wallet= wallet.connect(provider);
-    return ethers.utils.formatEther(await wallet.getBalance());
+  let wallet = new ethers.Wallet(walletKey);
+  wallet = wallet.connect(provider);
+  return ethers.utils.formatEther(await wallet.getBalance());
 }
 
 //------------------------TEST---------------------------
@@ -51,7 +55,7 @@ async function getBalance(walletKey) {
 // balance();
 //----------------------END_TEST------------------------------
 
- /**
+/**
 ██████╗  ██████╗ ██████╗  █████╗ ███╗   ██╗██████╗ 
 ██╔════╝ ██╔═══██╗██╔══██╗██╔══██╗████╗  ██║██╔══██╗
 ██║  ███╗██║   ██║██║  ██║███████║██╔██╗ ██║██║  ██║
